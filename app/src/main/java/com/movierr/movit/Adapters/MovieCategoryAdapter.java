@@ -142,6 +142,7 @@ public class MovieCategoryAdapter
         ratingValue.setSpan(fcsWhite, 0, rating.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // sets it in the layout
-        view.setText(TextUtils.concat(imdbRatingString, rating));
+        // TextUtils.concat concatenates two SpannableString values (with diff colors as above).
+        view.setText(TextUtils.concat(imdbRatingString, ratingValue));
     }
 }
