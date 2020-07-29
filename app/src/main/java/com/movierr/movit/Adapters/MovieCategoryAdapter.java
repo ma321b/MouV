@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -113,7 +114,7 @@ public class MovieCategoryAdapter
         Glide.with(this.context)
                 .load(movieImageUrls[position])
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .apply(new RequestOptions().override(cardView.getWidth(), cardView.getHeight()))  // resizing it to the same size as its parent
+                .apply(new RequestOptions().override(cardView.getWidth(), 250))  // resizing it to the same size as its parent (250dp being the height of cardview)
                 .into(imageView);
 
         // Setting the text of imdb rating of the movie
@@ -126,16 +127,21 @@ public class MovieCategoryAdapter
     private void setImdbRatingTextColor(String rating, TextView view) {
         // tutorial here: https://codinginflow.com/tutorials/android/spannablestring-text-color
 
-        SpannableString spannableString = new SpannableString("IMDB rating: " + rating);
+        SpannableString imdbRatingString = new SpannableString("IMDB rating: ");
+        SpannableString ratingValue = new SpannableString(rating);
 
         // IMDB's theme yellow color is #f3ce13 as below
         ForegroundColorSpan fcsImdbYellow =
                 new ForegroundColorSpan(Color.parseColor("#f3ce13"));
+        ForegroundColorSpan fcsWhite =
+                new ForegroundColorSpan(Color.parseColor("#FFFFFF"));
 
-        // sets color of the string "IMDB Rating: " to IMDB's theme yellow:
-        spannableString.setSpan(fcsImdbYellow, 0, 13, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // sets color of the string "IMDB Rating: " to IMDB's theme yellow
+        // and that of the actual value to white:
+        imdbRatingString.setSpan(fcsImdbYellow, 0, imdbRatingString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ratingValue.setSpan(fcsWhite, 0, rating.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         // sets it in the layout
-        view.setText(spannableString);
+        view.setText(TextUtils.concat(imdbRatingString, rating));
     }
 }

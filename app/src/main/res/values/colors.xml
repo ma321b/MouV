@@ -12,8 +12,10 @@
     <!-- below is 50% opaque or 50% transparent black for background
         (shown by the leading 80 the rest of zeros are for black (tint)) -->
     <color name="caption_background">#80000000</color>
-    <color name="movie_name">#f2f2f2</color>
+    <color name="movie_name">#FFFFFF</color>
 
     <!--    IMDB's color (for rating) -->
     <color name="imdb_color">#f3ce13</color>
+
+    <color name="movie_info_background">#000000</color>
 </resources>
