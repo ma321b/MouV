@@ -44,7 +44,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:textSize="20dp" />
-            <!-- TODO: add imdb rating here and update adapter likewise -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -53,7 +53,7 @@
                 android:layout_marginEnd="20dp"
                 android:gravity="start|bottom"
                 android:text="IMDB Rating is: "
-                android:textColor="@color/imdb_color"/>
+                android:textColor="@color/imdb_color" />
 
         </LinearLayout>
 

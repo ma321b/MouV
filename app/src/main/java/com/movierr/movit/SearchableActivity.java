@@ -92,19 +92,26 @@ public class SearchableActivity extends AppCompatActivity {
                             resultsArray = response.getJSONArray("results");
                             String[] movieTitles = new String[resultsArray.length()];
                             String[] imageUrls = new String[resultsArray.length()];
+                            String[] imdbRatings = new String[resultsArray.length()];
 
                             for (int i = 0; i < resultsArray.length(); i++) {
                                 // movie titles go in the movieTitle array
-                                movieTitles[i] = resultsArray.getJSONObject(i).getString("title");
+                                movieTitles[i] = resultsArray
+                                        .getJSONObject(i)
+                                        .getString("title");
 
                                 // baseUrl + image size + poster path in the imageUrls
-                                // NOTE: using the http:// instead of https:// results in cleartext
+                                // NOTE: using the http:// instead of https:// results in error cleartext
                                 //       traffic not allowed on image.tmdb.org, which throws a
                                 //       java.IO exception or smt.
                                 imageUrls[i] = Config.IMAGE_SECURE_BASE_URL + "original" +
                                         resultsArray.getJSONObject(i).getString("poster_path");
+
+                                imdbRatings[i] = resultsArray
+                                        .getJSONObject(i)
+                                        .getString("vote_average");
                             }
-                            updateUI(movieTitles, imageUrls);
+                            updateUI(movieTitles, imageUrls, imdbRatings);
                         } catch (JSONException e) {
                             finish();
                         }
@@ -147,8 +154,9 @@ public class SearchableActivity extends AppCompatActivity {
      * @param movieTitles Array containing movie titles
      * @param imageUrls   Array containing urls of images
      */
-    private void updateUI(String[] movieTitles, String[] imageUrls) {
-        MovieCategoryAdapter adapter = new MovieCategoryAdapter(movieTitles, imageUrls, this);
+    private void updateUI(String[] movieTitles, String[] imageUrls, String[] imdbRatings) {
+        MovieCategoryAdapter adapter = new
+                MovieCategoryAdapter(movieTitles, imageUrls, imdbRatings, this);
         RecyclerView recyclerView = findViewById(R.id.search_results);
         recyclerView.setHasFixedSize(true);
 

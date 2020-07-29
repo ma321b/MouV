@@ -1,17 +1,20 @@
 package com.movierr.movit.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -25,6 +28,9 @@ public class MovieCategoryAdapter
 
     // movie urls would then be fetched using the glide lib
     private String[] movieImageUrls;
+
+    // Array containing IMDB ratings of the movies
+    private String[] imdbRatings;
 
     // required for the glide stuff
     private Context context;
@@ -47,9 +53,11 @@ public class MovieCategoryAdapter
     /**
      * Public constructor of this Adapter.
      */
-    public MovieCategoryAdapter(String[] movieNames, String[] movieImageUrls, Context context) {
+    public MovieCategoryAdapter(String[] movieNames, String[] movieImageUrls,
+                                String[] imdbRatings, Context context) {
         this.movieNames = movieNames;
         this.movieImageUrls = movieImageUrls;
+        this.imdbRatings = imdbRatings;
         this.context = context;
     }
 
@@ -90,14 +98,16 @@ public class MovieCategoryAdapter
      * @param holder   The view holder the data needs to be bound to.
      * @param position The position in the data set of the data that needs to be bound.
      */
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.movie_image);
-        TextView textView = (TextView) cardView.findViewById(R.id.movie_name);
+        TextView movieName = (TextView) cardView.findViewById(R.id.movie_name);
+        TextView imdbRating = (TextView) cardView.findViewById(R.id.imdb_rating);
 
         // Setting the movie's text (movie name/title)
-        textView.setText(movieNames[position]);
+        movieName.setText(movieNames[position]);
 
         // Setting the movie's poster using Glide lib
         Glide.with(this.context)
@@ -105,5 +115,27 @@ public class MovieCategoryAdapter
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(new RequestOptions().override(cardView.getWidth(), cardView.getHeight()))  // resizing it to the same size as its parent
                 .into(imageView);
+
+        // Setting the text of imdb rating of the movie
+        setImdbRatingTextColor(imdbRatings[position], imdbRating);
+    }
+
+    /**
+     * Set the color of the string showing IMDB rating of the movie.
+     */
+    private void setImdbRatingTextColor(String rating, TextView view) {
+        // tutorial here: https://codinginflow.com/tutorials/android/spannablestring-text-color
+
+        SpannableString spannableString = new SpannableString("IMDB rating: " + rating);
+
+        // IMDB's theme yellow color is #f3ce13 as below
+        ForegroundColorSpan fcsImdbYellow =
+                new ForegroundColorSpan(Color.parseColor("#f3ce13"));
+
+        // sets color of the string "IMDB Rating: " to IMDB's theme yellow:
+        spannableString.setSpan(fcsImdbYellow, 0, 13, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        // sets it in the layout
+        view.setText(spannableString);
     }
 }
