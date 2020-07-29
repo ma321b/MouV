@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?><!-- This layout is used to build the cards which would then be added to the
+    the recyclerview in the main layout later (as list items) -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="4dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="8dp">
+
+    <!-- We’ve put the ImageView and TextView in a LinearLayout,
+        as the CardView can only have one direct child -->
+    <!-- TODO: add a small text box below the card to give full name of the movie -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/movie_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- This linear layout below is used to display basic movie info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="2">
+            <TextView
+                android:id="@+id/movie_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|center"
+                android:gravity="center"
+                android:background="@color/caption_background"
+                android:ellipsize="end"
+                android:fontFamily="@font/in_use_recursive_black"
+                android:maxLines="2"
+                android:textColor="@color/movie_name"
+                android:text="Pirates of the Caribbean"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textSize="20dp" />
+            <!-- TODO: add imdb rating here and update adapter likewise -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/imdb_rating"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:gravity="start|bottom"
+                android:text="IMDB Rating is: "
+                android:textColor="@color/imdb_color"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

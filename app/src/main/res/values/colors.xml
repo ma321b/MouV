@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#66cc00</color>
+    <color name="colorPrimaryDark">#336600</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <!-- Colors for the cardView
+        refer to this for guide (2nd answer):
+        https://stackoverflow.com/questions/11285961/how-to-make-a-background-20-transparent-on-android
+        -->
+
+    <!-- below is 50% opaque or 50% transparent black for background
+        (shown by the leading 80 the rest of zeros are for black (tint)) -->
+    <color name="caption_background">#80000000</color>
+    <color name="movie_name">#f2f2f2</color>
+
+    <!--    IMDB's color (for rating) -->
+    <color name="imdb_color">#f3ce13</color>
+</resources>
