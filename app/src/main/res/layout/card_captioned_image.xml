@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!-- This layout is used to build the cards which would then be added to the
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This layout is used to build the cards which would then be added to the
     the recyclerview in the main layout later (as list items) -->
+<!-- TODO show some image or smt in background of cardview (in breaks) -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
@@ -7,53 +9,58 @@
     android:layout_height="250dp"
     android:layout_margin="4dp"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="8dp"
-    android:background="@color/movie_info_background">
+    card_view:cardElevation="8dp">
 
     <!-- We’ve put the ImageView and TextView in a LinearLayout,
         as the CardView can only have one direct child -->
-    <!-- TODO: add a small text box below the card to give full name of the movie -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ImageView
-            android:background="@color/movie_info_background"
             android:id="@+id/movie_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/movie_info_background" />
 
         <!-- This linear layout below is used to display basic movie info -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="2"
-            android:background="@color/movie_info_background">
+            android:background="@color/movie_info_background"
+            android:orientation="vertical">
+
             <TextView
-                android:layout_marginTop="30dp"
                 android:id="@+id/movie_name"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:gravity="start|center"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginEnd="20dp"
                 android:ellipsize="end"
-                android:fontFamily="@font/in_use_recursive_black"
+                android:fontFamily="@font/titillium_web_regular_movietitle"
+                android:gravity="start|center"
                 android:maxLines="2"
                 android:textColor="@color/movie_name"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:textSize="20dp" />
 
+            <!-- layout_weight = 1 here is used to align it to bottom
+                 (gravity set to bottom). Otherwise not possible -->
             <TextView
+                android:id="@+id/imdb_rating"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/imdb_rating"
+                android:layout_weight="1"
+                android:layout_gravity="bottom"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="start|bottom"
-                android:layout_gravity="bottom|start" />
+                android:layout_marginBottom="25dp"
+                android:fontFamily="@font/opensans_condensed_imdb_rating"
+                android:gravity="bottom|start" />
 
         </LinearLayout>
 
