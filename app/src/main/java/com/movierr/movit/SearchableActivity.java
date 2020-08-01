@@ -78,6 +78,7 @@ public class SearchableActivity extends AppCompatActivity {
         String url = "https://api.themoviedb.org/3/search/movie?api_key=" + Config.API_KEY
                 + "&language=en-US&" + "query=" + URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
 
+        // TODO: Make use of the Connection class, or else delete it.
         // TESTING:
 //        Connection connection = new Connection(this, url);
 //        JSONObject object = connection.getResponseObject();
@@ -87,34 +88,7 @@ public class SearchableActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        JSONArray resultsArray = null;
-                        try {
-                            resultsArray = response.getJSONArray("results");
-                            String[] movieTitles = new String[resultsArray.length()];
-                            String[] imageUrls = new String[resultsArray.length()];
-                            String[] imdbRatings = new String[resultsArray.length()];
-
-                            for (int i = 0; i < resultsArray.length(); i++) {
-                                // movie titles go in the movieTitle array
-                                movieTitles[i] = resultsArray
-                                        .getJSONObject(i)
-                                        .getString("title");
-
-                                // baseUrl + image size + poster path in the imageUrls
-                                // NOTE: using the http:// instead of https:// results in error cleartext
-                                //       traffic not allowed on image.tmdb.org, which throws a
-                                //       java.IO exception or smt.
-                                imageUrls[i] = Config.IMAGE_SECURE_BASE_URL + "original" +
-                                        resultsArray.getJSONObject(i).getString("poster_path");
-
-                                imdbRatings[i] = resultsArray
-                                        .getJSONObject(i)
-                                        .getString("vote_average");
-                            }
-                            updateUI(movieTitles, imageUrls, imdbRatings);
-                        } catch (JSONException e) {
-                            finish();
-                        }
+                        processSearchMovieQueryResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -124,27 +98,42 @@ public class SearchableActivity extends AppCompatActivity {
                     }
                 });
         q.add(request);
-        /*if (object != null) {
-            resultsArray = response.getJSONArray("results");
+    }
+
+    /**
+     * Processes the results returned by the TMDB API for
+     * a query to search a movie, and then updates the UI to show
+     * the results.
+     * @param response The response object from the API server
+     */
+    private void processSearchMovieQueryResponse(JSONObject response) {
+        try {
+            JSONArray resultsArray = response.getJSONArray("results");
             String[] movieTitles = new String[resultsArray.length()];
             String[] imageUrls = new String[resultsArray.length()];
+            String[] imdbRatings = new String[resultsArray.length()];
 
             for (int i = 0; i < resultsArray.length(); i++) {
                 // movie titles go in the movieTitle array
-                movieTitles[i] = resultsArray.getJSONObject(i).getString("title");
+                movieTitles[i] = resultsArray
+                        .getJSONObject(i)
+                        .getString("title");
 
                 // baseUrl + image size + poster path in the imageUrls
-                imageUrls[i] = Config.IMAGE_BASE_URL + "original" +
+                // NOTE: using the http:// instead of https:// results in error cleartext
+                //       traffic not allowed on image.tmdb.org, which throws a
+                //       java.IO exception or smt.
+                imageUrls[i] = Config.IMAGE_SECURE_BASE_URL + "original" +
                         resultsArray.getJSONObject(i).getString("poster_path");
+
+                imdbRatings[i] = resultsArray
+                        .getJSONObject(i)
+                        .getString("vote_average");
             }
-            for(String urlss : imageUrls) {
-                Log.i("idk", urlss);
-            }
-            updateUI(movieTitles, imageUrls);
-        } else {
-            // null object means an error occurred.
-            finish();  // for now.
-        }*/
+            updateUI(movieTitles, imageUrls, imdbRatings);
+        } catch (JSONException e) {
+            finish();
+        }
     }
 
     /**

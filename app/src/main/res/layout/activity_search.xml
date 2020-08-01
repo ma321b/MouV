@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO show "No results found" prompt for when
+      no results are found (due to incorrect query, say) -->
+
+<!-- TODO: add a toolbar for this activity (showing text "Movies" maybe?)-->
 <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_results"
     android:layout_width="match_parent"

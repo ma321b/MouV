@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_main));
     }
 
+    /**
+     * Adding the search widget in the app bar when it is created.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
@@ -53,37 +56,18 @@ public class MainActivity extends AppCompatActivity {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(
                 new ComponentName(this, SearchableActivity.class))
         );
-        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        searchView.setIconifiedByDefault(true); // iconify the widget; do not expand it by default (this is the default option. writing it has no effect. just there for clarity)
         searchView.setSubmitButtonEnabled(true); // Enables the submit button (as opposed to pressing return)
         return super.onCreateOptionsMenu(menu);
     }
 
     /**
-     * This is being used as a button click listener
+     * Invoked when the button saying movie search is clicked
      */
-    public void test(View view) {
-        final TextView text = (TextView) findViewById(R.id.textTest);
-
-        RequestQueue q = Volley.newRequestQueue(this);
-        String apiKey = "7be4389b4300fcd9529d877730e7987a";
-
-        String url = "https://api.themoviedb.org/3/search/movie?api_key=" + apiKey + "&language=en-US&" +
-                "query=interstellar";
-
-        StringRequest req = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        text.setText("Response is: " + response);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        text.setText("Something went wrong innih");
-                    }
-                });
-
-        q.add(req);
+    public void startSearch(View view) {
+        SearchView searchView = (SearchView) findViewById(R.id.search_widget);
+        // when the user presses the button it "presses" the search widget, launching it
+        // as if a user pressed the search icon
+        searchView.setIconified(false);
     }
 }
