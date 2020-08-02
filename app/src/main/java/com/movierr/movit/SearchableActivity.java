@@ -157,6 +157,8 @@ public class SearchableActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    // Todo: Make this display some meaningful text or remove it
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

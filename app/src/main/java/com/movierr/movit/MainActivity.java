@@ -66,8 +66,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void startSearch(View view) {
         SearchView searchView = (SearchView) findViewById(R.id.search_widget);
-        // when the user presses the button it "presses" the search widget, launching it
-        // as if a user pressed the search icon
+        // when the user presses the button it launches the search widget
         searchView.setIconified(false);
     }
 }
