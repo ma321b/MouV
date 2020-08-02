@@ -2,12 +2,15 @@ package com.movierr.movit.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +19,31 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.movierr.movit.R;
+import com.movierr.movit.TMDBConfig.Config;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MovieCategoryAdapter
         extends RecyclerView.Adapter<MovieCategoryAdapter.ViewHolder> {
+    // The parametrized <MovieCategoryAdapter.ViewHolder> above in class declaration
+    // is used to specify which views should be used for each data item.
+
+    // the array containing all the TMDB IDs of movies (required for implementing
+    // the functionality of the click listeners in recyclerview):
+    private String[] tmdbIDs;
 
     private String[] movieNames;
 
@@ -36,16 +56,14 @@ public class MovieCategoryAdapter
     // required for the glide stuff
     private Context context;
 
-    // The parametrized ViewHolder above in class declaration
-    // is used to specify which views should be used for each data item.
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
         public ViewHolder(CardView v) {
             // Our recycler view needs to display CardViews, so we specify that
             // our ViewHolder contains CardViews. If you want to display another
-            // type of data in the recycler view, you define it here (i.e., constructor param)
+            // type of data in the recycler view, you define it above (i.e., constructor param).
+
             super(v);
             cardView = v;
         }
@@ -54,8 +72,9 @@ public class MovieCategoryAdapter
     /**
      * Public constructor of this Adapter.
      */
-    public MovieCategoryAdapter(String[] movieNames, String[] movieImageUrls,
-                                String[] imdbRatings, Context context) {
+    public MovieCategoryAdapter(String[] tmdbIDs, String[] movieNames,
+                                String[] movieImageUrls, String[] imdbRatings, Context context) {
+        this.tmdbIDs = tmdbIDs;
         this.movieNames = movieNames;
         this.movieImageUrls = movieImageUrls;
         this.imdbRatings = imdbRatings;
@@ -92,6 +111,9 @@ public class MovieCategoryAdapter
         return new ViewHolder(cardView);
     }
 
+    // TODO: When a movie from search results is clicked, launch web browser
+    //  with the imdb page of the movie clicked.
+
     /**
      * You add data to the card views by implementing the adapter’s onBindViewHolder() method.
      * This gets called whenever the recycler view needs to display data in a view holder.
@@ -101,8 +123,14 @@ public class MovieCategoryAdapter
      */
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchImdbPage(tmdbIDs[position]);
+            }
+        });
         ImageView imageView = (ImageView) cardView.findViewById(R.id.movie_image);
         TextView movieName = (TextView) cardView.findViewById(R.id.movie_name);
         TextView imdbRating = (TextView) cardView.findViewById(R.id.imdb_rating);
@@ -144,5 +172,38 @@ public class MovieCategoryAdapter
         // sets it in the layout
         // TextUtils.concat concatenates two SpannableString values (with diff colors as above).
         view.setText(TextUtils.concat(imdbRatingString, ratingValue));
+    }
+
+    /**
+     * Launches the respective IMDB page of the movie in the user's web browser.
+     *
+     * @param movieID The TMDB ID of the movie.
+     */
+    private void launchImdbPage(String movieID) {
+        String url = "https://api.themoviedb.org/3/movie/" + movieID + "/external_ids?api_key="
+                + Config.API_KEY;
+        RequestQueue q = Volley.newRequestQueue(this.context);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // getting the IMDB ID of the movie from the API
+                            String imdbID = response.getString("imdb_id");
+                            // launch the user's browser on the movie's URL
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://www.imdb.com/title/" + imdbID + "/"));
+                            context.startActivity(intent);
+                        } catch (JSONException e) {
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+        q.add(request);
     }
 }

@@ -109,11 +109,13 @@ public class SearchableActivity extends AppCompatActivity {
     private void processSearchMovieQueryResponse(JSONObject response) {
         try {
             JSONArray resultsArray = response.getJSONArray("results");
+            String[] tmdbIDs = new String[resultsArray.length()];
             String[] movieTitles = new String[resultsArray.length()];
             String[] imageUrls = new String[resultsArray.length()];
             String[] imdbRatings = new String[resultsArray.length()];
 
             for (int i = 0; i < resultsArray.length(); i++) {
+                tmdbIDs[i] = resultsArray.getJSONObject(i).getString("id");
                 // movie titles go in the movieTitle array
                 movieTitles[i] = resultsArray
                         .getJSONObject(i)
@@ -130,7 +132,9 @@ public class SearchableActivity extends AppCompatActivity {
                         .getJSONObject(i)
                         .getString("vote_average");
             }
-            updateUI(movieTitles, imageUrls, imdbRatings);
+            //todo: maybe move the logic above of extracting data from the results
+            // array to the adapter class?
+            updateUI(tmdbIDs, movieTitles, imageUrls, imdbRatings);
         } catch (JSONException e) {
             finish();
         }
@@ -143,9 +147,9 @@ public class SearchableActivity extends AppCompatActivity {
      * @param movieTitles Array containing movie titles
      * @param imageUrls   Array containing urls of images
      */
-    private void updateUI(String[] movieTitles, String[] imageUrls, String[] imdbRatings) {
+    private void updateUI(String[] tmdbIDs, String[] movieTitles, String[] imageUrls, String[] imdbRatings) {
         MovieCategoryAdapter adapter = new
-                MovieCategoryAdapter(movieTitles, imageUrls, imdbRatings, this);
+                MovieCategoryAdapter(tmdbIDs, movieTitles, imageUrls, imdbRatings, this);
         RecyclerView recyclerView = findViewById(R.id.search_results);
         recyclerView.setHasFixedSize(true);
 
