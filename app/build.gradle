@@ -5,7 +5,7 @@ android {
     buildToolsVersion "30.0.0"
 
     defaultConfig {
-        applicationId 'com.movierr.movit.movierecommendation10'
+        applicationId 'com.movierr.mouv'
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

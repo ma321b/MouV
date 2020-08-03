@@ -1,4 +1,4 @@
-package com.movierr.movit.Adapters;
+package com.movierr.mouv.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,10 +29,9 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.movierr.movit.R;
-import com.movierr.movit.TMDBConfig.Config;
+import com.movierr.mouv.R;
+import com.movierr.mouv.TMDBConfig.Config;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

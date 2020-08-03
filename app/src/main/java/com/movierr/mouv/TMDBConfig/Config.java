@@ -1,4 +1,4 @@
-package com.movierr.movit.TMDBConfig;
+package com.movierr.mouv.TMDBConfig;
 
 /**
  * This class contains the main config stuff (like image base_url etc).

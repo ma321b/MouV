@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.movierr.movit">
+    package="com.movierr.mouv">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,10 +17,10 @@
             android:value=".SearchableActivity" />
 
         <provider
-            android:name=".SuggestionProvider"
-            android:authorities="com.movierr.movit.SuggestionProvider" />
+            android:name="com.movierr.mouv.SuggestionProvider"
+            android:authorities="com.movierr.mouv.SuggestionProvider" />
         <!-- this is the searchable activity; it performs searches -->
-        <activity android:name=".SearchableActivity">
+        <activity android:name="com.movierr.mouv.SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -35,7 +35,7 @@
  this activity contains and enables the search dialog to initiate searches
          in the SearchableActivity
         -->
-        <activity android:name=".MainActivity">
+        <activity android:name="com.movierr.mouv.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
