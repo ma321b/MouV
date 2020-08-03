@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -111,9 +112,6 @@ public class MovieCategoryAdapter
         return new ViewHolder(cardView);
     }
 
-    // TODO: When a movie from search results is clicked, launch web browser
-    //  with the imdb page of the movie clicked.
-
     /**
      * You add data to the card views by implementing the adapter’s onBindViewHolder() method.
      * This gets called whenever the recycler view needs to display data in a view holder.
@@ -195,13 +193,20 @@ public class MovieCategoryAdapter
                                     Uri.parse("https://www.imdb.com/title/" + imdbID + "/"));
                             context.startActivity(intent);
                         } catch (JSONException e) {
+                            Toast.makeText(context,
+                                    "Sorry a network error occurred",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(context,
+                                "Sorry a network error occurred",
+                                Toast.LENGTH_SHORT)
+                                .show();
                     }
                 });
         q.add(request);

@@ -57,7 +57,7 @@ public class SearchableActivity extends AppCompatActivity {
             try {
                 performSearch(query);
             } catch (Exception e) {
-                toastText = "Sorry, there was a network issue";
+                Toast.makeText(this, "An unexpected error occurred!", Toast.LENGTH_SHORT).show();
                 finish();
             }
             // adds each query received by your searchable
@@ -136,6 +136,7 @@ public class SearchableActivity extends AppCompatActivity {
             // array to the adapter class?
             updateUI(tmdbIDs, movieTitles, imageUrls, imdbRatings);
         } catch (JSONException e) {
+            Toast.makeText(this, "An unexpected error occurred!", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
@@ -159,17 +160,5 @@ public class SearchableActivity extends AppCompatActivity {
 
         // setting the adapter
         recyclerView.setAdapter(adapter);
-    }
-
-    // Todo: Make this display some meaningful text or remove it
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (toastText != null) {
-            Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "An unexpected error occurred!", Toast.LENGTH_SHORT).show();
-        }
     }
 }
