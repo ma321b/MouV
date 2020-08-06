@@ -137,6 +137,7 @@ public class MovieCategoryAdapter
         addToFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // run this method when "add to favourites" button is clicked
                 testToastListener(movieName.getText());
             }
         });
@@ -222,6 +223,10 @@ public class MovieCategoryAdapter
         q.add(request);
     }
 
+    /**
+     * Run whenever the "add to favourites" button is clicked.
+     * Displays the movie name in toast currently (only for testing)
+     */
     private void testToastListener(CharSequence movieName) {
         Toast.makeText(context, "Movie name: " + movieName, Toast.LENGTH_SHORT).show();
     }
