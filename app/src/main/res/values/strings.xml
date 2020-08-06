@@ -3,4 +3,5 @@
     <string name="app_label">searching</string>
     <string name="search_hint">Try searching for a movie name.....</string>
     <string name="search_widget">Search Widget</string>
+    <string name="add_favourite">Add to favourites</string>
 </resources>

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- This layout is used to build the cards which would then be added to the
+<?xml version="1.0" encoding="utf-8"?><!-- This layout is used to build the cards which would then be added to the
     the recyclerview in the main layout later (as list items) -->
 <!-- TODO show some image or smt in background of cardview (in breaks) -->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="250dp"
@@ -26,43 +26,68 @@
             android:background="@color/movie_info_background" />
 
         <!-- This linear layout below is used to display basic movie info -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="@color/movie_info_background"
             android:orientation="vertical">
 
+            <!-- layout_weight = 1 here is used to align it to bottom
+                 (gravity set to bottom). Otherwise not possible -->
+
             <TextView
                 android:id="@+id/movie_name"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
                 android:layout_marginEnd="20dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/titillium_web_regular_movietitle"
                 android:gravity="start|center"
                 android:maxLines="2"
                 android:textColor="@color/movie_name"
-                android:textSize="20dp" />
+                android:textSize="20sp"
+                card_view:layout_constraintBottom_toTopOf="@+id/imdb_rating"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.098"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="0.492" />
 
-            <!-- layout_weight = 1 here is used to align it to bottom
-                 (gravity set to bottom). Otherwise not possible -->
             <TextView
                 android:id="@+id/imdb_rating"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:layout_gravity="bottom"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="25dp"
+                android:layout_gravity="bottom"
                 android:fontFamily="@font/opensans_condensed_imdb_rating"
-                android:gravity="bottom|start" />
+                android:gravity="bottom|start"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.1"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="0.454" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/add_favourite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/add_favourite"
+                android:textColor="@color/movie_name"
+                android:textSize="12sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.153"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/imdb_rating"
+                card_view:layout_constraintVertical_bias="0.554" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
