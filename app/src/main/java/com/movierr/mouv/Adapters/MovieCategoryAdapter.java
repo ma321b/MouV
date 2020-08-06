@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -128,8 +129,18 @@ public class MovieCategoryAdapter
                 launchImdbPage(tmdbIDs[position]);
             }
         });
+
         ImageView imageView = (ImageView) cardView.findViewById(R.id.movie_image);
-        TextView movieName = (TextView) cardView.findViewById(R.id.movie_name);
+        final TextView movieName = (TextView) cardView.findViewById(R.id.movie_name);
+
+        AppCompatButton addToFavourites = (AppCompatButton) cardView.findViewById(R.id.add_favourite);
+        addToFavourites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testToastListener(movieName.getText());
+            }
+        });
+
         TextView imdbRating = (TextView) cardView.findViewById(R.id.imdb_rating);
 
         // Setting the movie's text (movie name/title)
@@ -209,5 +220,9 @@ public class MovieCategoryAdapter
                     }
                 });
         q.add(request);
+    }
+
+    private void testToastListener(CharSequence movieName) {
+        Toast.makeText(context, "Movie name: " + movieName, Toast.LENGTH_SHORT).show();
     }
 }

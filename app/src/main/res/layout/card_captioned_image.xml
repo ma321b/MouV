@@ -71,12 +71,15 @@
                 card_view:layout_constraintTop_toTopOf="parent"
                 card_view:layout_constraintVertical_bias="0.454" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/add_favourite"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/imdb_color"
+                android:drawableStart="@drawable/baseline_add_24"
+                android:gravity="center"
                 android:text="@string/add_favourite"
                 android:textColor="@color/movie_name"
                 android:textSize="12sp"
