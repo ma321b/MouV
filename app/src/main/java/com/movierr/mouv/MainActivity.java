@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 /**
  * Because the OtherActivity now includes a <meta-data> element in Manifest, to declare which
  * searchable activity to use for searches, the activity has enabled the search dialog.
@@ -20,10 +23,17 @@ import android.widget.SearchView;
  * ACTION_SEARCH intent.
  */
 public class MainActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // initialising Firebase components:
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_main));
     }
