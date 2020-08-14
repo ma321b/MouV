@@ -1,5 +1,6 @@
 package com.movierr.mouv;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -11,9 +12,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.w3c.dom.Text;
+
+import java.util.Arrays;
 
 /**
  * Because the OtherActivity now includes a <meta-data> element in Manifest, to declare which
@@ -25,6 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+
+    // Choose an arbitrary request code value for Auth UI
+    private static final int RC_SIGN_IN = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,46 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_main));
+
+        // initialising the auth state listener:
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                // @param firebaseAuth is guaranteed to contain whether the user
+                // is authenticated at that time or not
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // user is signed-in
+                    onSignedInInitialise(user.getDisplayName());
+                } else {
+                    // user is signed-out
+                    // this is where we need the sign in (Auth) UI
+                    startActivityForResult(
+                            AuthUI.getInstance()
+                                    .createSignInIntentBuilder()
+                                    .setIsSmartLockEnabled(false)   // a way for the phone to auto save user credentials and try to log them in (we won't need it).
+                                    .setAvailableProviders(Arrays.asList(
+                                            new AuthUI.IdpConfig.GoogleBuilder().build(), // Gmail login flow
+                                            new AuthUI.IdpConfig.EmailBuilder().build())) // Email login flow
+                                    .build(),
+                            RC_SIGN_IN);
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // ref: https://stackoverflow.com/questions/61582391/purpose-of-removing-the-firebase-authstatelistener-for-authentication-on-onpause
+        auth.removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // ref: https://stackoverflow.com/questions/61582391/purpose-of-removing-the-firebase-authstatelistener-for-authentication-on-onpause
+        auth.addAuthStateListener(authStateListener);
     }
 
     /**
@@ -60,6 +113,18 @@ public class MainActivity extends AppCompatActivity {
         searchView.setIconifiedByDefault(true); // iconify the widget; do not expand it by default (this is the default option. writing it has no effect. just there for clarity)
         searchView.setSubmitButtonEnabled(true); // Enables the submit button (as opposed to pressing return)
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * When a user is signed in, initialise the UI,
+     * showing a welcome message containing their name.
+     * @param userName The signed in user
+     */
+    private void onSignedInInitialise(String userName) {
+        String[] fullName = userName.split(" ");
+        String firstName = fullName[0];
+        TextView welcomeMessage = (TextView) findViewById(R.id.welcome_message);
+        welcomeMessage.setText("Welcome back, " + firstName + "!");
     }
 
     /**
