@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         String[] fullName = userName.split(" ");
         String firstName = fullName[0];
         TextView welcomeMessage = (TextView) findViewById(R.id.welcome_message);
-        welcomeMessage.setText("Welcome back, " + firstName + "!");
+        welcomeMessage.setText(String.format("Welcome back, %s!", firstName));
     }
 
     /**

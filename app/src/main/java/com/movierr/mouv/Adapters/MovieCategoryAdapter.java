@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Movie;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,13 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.movierr.mouv.FavouriteMovie;
 import com.movierr.mouv.R;
 import com.movierr.mouv.TMDBConfig.Config;
 
@@ -56,6 +65,8 @@ public class MovieCategoryAdapter
 
     // required for the glide stuff
     private Context context;
+
+    private static final String TAG = MovieCategoryAdapter.class.getName();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -137,8 +148,7 @@ public class MovieCategoryAdapter
         addToFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // run this method when "add to favourites" button is clicked
-                testToastListener(movieName.getText());
+                addFavouriteToFirestore(position);
             }
         });
 
@@ -221,6 +231,47 @@ public class MovieCategoryAdapter
                     }
                 });
         q.add(request);
+    }
+
+
+    /**
+     * Adds the favourite movie object to the Firebase Firestore.
+     *
+     * @param position The position of the movie info (check usage in onBindViewHolder())
+     */
+    private void addFavouriteToFirestore(int position) {
+        // run this method when "add to favourites" button is clicked
+        // todo add code to add to the db here
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userID = user.getUid();
+
+            FavouriteMovie favMovie = new FavouriteMovie(tmdbIDs[position], movieImageUrls[position]);
+
+            // add the object containing info about the favourite movie to a sub-collection
+            // called "favourites" in the document path "users/userID" where userID is the
+            // unique Firebase-provided user ID of the user.
+            FirebaseFirestore.getInstance()
+                    .collection("users").document(userID)
+                    .collection("favourites").add(favMovie)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                            Toast.makeText(MovieCategoryAdapter.this.context,
+                                    "Added to favourites!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
+        } else {
+            Toast.makeText(MovieCategoryAdapter.this.context, "Please Log In first!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

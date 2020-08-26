@@ -8,6 +8,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,6 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.movierr.mouv.Adapters.MovieCategoryAdapter;
 import com.movierr.mouv.TMDBConfig.Config;
 
@@ -34,11 +38,15 @@ import java.nio.charset.StandardCharsets;
 public class SearchableActivity extends AppCompatActivity {
 
     private String toastText;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        // initialise db
+        db = FirebaseFirestore.getInstance();
 
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
@@ -122,8 +130,6 @@ public class SearchableActivity extends AppCompatActivity {
                         .getJSONObject(i)
                         .getString("vote_average");
             }
-            //todo: maybe move the logic above of extracting data from the results
-            // array to the adapter class?
             updateUI(tmdbIDs, movieTitles, imageUrls, imdbRatings);
         } catch (JSONException e) {
             Toast.makeText(this, "An unexpected error occurred!", Toast.LENGTH_SHORT).show();
