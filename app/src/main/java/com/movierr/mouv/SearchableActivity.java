@@ -76,11 +76,6 @@ public class SearchableActivity extends AppCompatActivity {
         String url = "https://api.themoviedb.org/3/search/movie?api_key=" + Config.API_KEY
                 + "&language=en-US&" + "query=" + URLEncoder.encode(query, StandardCharsets.UTF_8.toString());
 
-        // TODO: Make use of the Connection class, or else delete it.
-        // TESTING:
-//        Connection connection = new Connection(this, url);
-//        JSONObject object = connection.getResponseObject();
-
         RequestQueue q = Volley.newRequestQueue(this);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

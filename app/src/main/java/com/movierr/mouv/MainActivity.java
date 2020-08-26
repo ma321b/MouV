@@ -24,6 +24,9 @@ import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
+
+// todo add functionality to sign out
+
 /**
  * Because the OtherActivity now includes a <meta-data> element in Manifest, to declare which
  * searchable activity to use for searches, the activity has enabled the search dialog.

@@ -241,7 +241,6 @@ public class MovieCategoryAdapter
      */
     private void addFavouriteToFirestore(int position) {
         // run this method when "add to favourites" button is clicked
-        // todo add code to add to the db here
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String userID = user.getUid();
@@ -251,6 +250,10 @@ public class MovieCategoryAdapter
             // add the object containing info about the favourite movie to a sub-collection
             // called "favourites" in the document path "users/userID" where userID is the
             // unique Firebase-provided user ID of the user.
+            // todo -> max 20 favourites per user (add func)
+            //  + add the user's name to their main document in the Firestore
+
+            // todo check if the user is attempting to do it again for the same movie
             FirebaseFirestore.getInstance()
                     .collection("users").document(userID)
                     .collection("favourites").add(favMovie)
