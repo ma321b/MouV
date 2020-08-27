@@ -256,6 +256,9 @@ public class MovieCategoryAdapter
             //  + add the user's name to their main document in the Firestore
 
             // todo check if the user is attempting to add to fav the same movie again
+
+            // todo show prompt if added to favs (make add to favs button into a text field, so it is
+            //  impossible to add the same movie twice and looks good too!).
             FirebaseFirestore.getInstance()
                     .collection("users").document(userID)
                     .collection("favourites").add(favMovie)
@@ -277,13 +280,5 @@ public class MovieCategoryAdapter
         } else {
             Toast.makeText(MovieCategoryAdapter.this.context, "Please Log In first!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /**
-     * Run whenever the "add to favourites" button is clicked.
-     * Displays the movie name in toast currently (only for testing)
-     */
-    private void testToastListener(CharSequence movieName) {
-        Toast.makeText(context, "Movie name: " + movieName, Toast.LENGTH_SHORT).show();
     }
 }

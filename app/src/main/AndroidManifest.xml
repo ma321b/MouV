@@ -15,10 +15,6 @@
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".SearchableActivity" />
-
-        <provider
-            android:name="com.movierr.mouv.SuggestionProvider"
-            android:authorities="com.movierr.mouv.SuggestionProvider" />
         <!-- this is the searchable activity; it performs searches -->
         <activity android:name="com.movierr.mouv.SearchableActivity">
             <intent-filter>

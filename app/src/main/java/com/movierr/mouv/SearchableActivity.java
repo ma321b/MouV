@@ -58,11 +58,6 @@ public class SearchableActivity extends AppCompatActivity {
                 Toast.makeText(this, "An unexpected error occurred!", Toast.LENGTH_SHORT).show();
                 finish();
             }
-            // adds each query received by your searchable
-            // activity (this) to the SearchRecentSuggestionsProvider (SuggestionProvider class).
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
         }
     }
 
