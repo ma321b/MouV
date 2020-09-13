@@ -3,7 +3,7 @@ My personal movie recommendation android app.
 
 ## What it does:
 
-The user can search for movies by clicking the button on the landing page. The app then matches the query string with a database of movies and shows the matching movies in the form of a (Card-based layout)[https://developer.android.com/guide/topics/ui/layout/cardview], essentially showing the movie title, its IMDB rating and its icon. The user can also add the movie to their "favourites" by clicking a button displayed in the layout
+The user can search for movies by clicking the button on the landing page. The app then matches the query string with a database of movies and shows the matching movies in the form of a [Card-based layout](https://developer.android.com/guide/topics/ui/layout/cardview), essentially showing the movie title, its IMDB rating and its icon. The user can also add the movie to their "favourites" by clicking a button displayed in the layout
 
 ## How it works:
 
