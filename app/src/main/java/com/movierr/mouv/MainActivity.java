@@ -7,9 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -19,8 +21,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
 
 import java.util.Arrays;
 
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu from XML
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_items, menu);
+        inflater.inflate(R.menu.menu_items_main, menu);
 
         // Get the SearchView and set the searchable configuration ->
         // Searchable configuration specifies various UI aspects of the search widget.
@@ -116,6 +116,33 @@ public class MainActivity extends AppCompatActivity {
         searchView.setIconifiedByDefault(true); // iconify the widget; do not expand it by default (this is the default option. writing it has no effect. just there for clarity)
         searchView.setSubmitButtonEnabled(true); // Enables the submit button (as opposed to pressing return)
         return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * Invoked when the menu item "show favourites"
+     * is clicked (using for showing favourites)
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.show_favourite_movies) {
+            // if the "Show Favourites" button from overflow menu is clicked,
+            // show user's favourite movies by launching Favourites activity
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                // if user is logged in
+                String userID = user.getUid();
+                Intent intent = new Intent(this, Favourites.class);
+                // putting userID as extra in Intent to facilitate fetching data from Firebase
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+            } else {
+                // if user is not logged in
+                Toast.makeText(this,
+                        "Please log in to view favourites!", Toast.LENGTH_LONG).show();
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

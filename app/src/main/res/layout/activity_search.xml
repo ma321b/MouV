@@ -3,11 +3,29 @@
       no results are found (due to incorrect query, or network error say) -->
 
 <!-- TODO: add a toolbar for this activity (showing text "Movies" maybe?)-->
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_results"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarFadeDuration="@android:integer/config_shortAnimTime"
-    android:scrollbars="horizontal"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_search"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_results"
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+        android:scrollbarFadeDuration="@android:integer/config_shortAnimTime"
+        android:scrollbars="horizontal" />
+
+</LinearLayout>
 

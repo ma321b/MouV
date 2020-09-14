@@ -4,4 +4,5 @@
     <string name="search_hint">Try searching for a movie name.....</string>
     <string name="search_widget">Search Widget</string>
     <string name="add_favourite">Add to favourites</string>
+    <string name="show_favourites">Show Favourites</string>
 </resources>

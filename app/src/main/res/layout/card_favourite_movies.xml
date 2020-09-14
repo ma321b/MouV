@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><!-- This layout is used to build the cards which would then be added to the
+    the recyclerview in the main layout later (as list items) -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_favourites"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="4dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="8dp">
+
+    <!-- We’ve put the ImageView and TextView in a LinearLayout,
+        as the CardView can only have one direct child -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/favourite_movie_image"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/movie_info_background" />
+
+        <!-- This linear layout below is used to display basic movie info -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/movie_info_background"
+            android:orientation="vertical">
+
+            <!-- layout_weight = 1 here is used to align it to bottom
+                 (gravity set to bottom). Otherwise not possible -->
+
+            <TextView
+                android:id="@+id/favourite_movie_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/titillium_web_regular_movietitle"
+                android:gravity="start|center"
+                android:textColor="@color/movie_name"
+                android:textSize="20sp"
+                card_view:layout_constraintBottom_toTopOf="@+id/imdb_rating"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.098"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="0.492" />
+
+            <TextView
+                android:id="@+id/favourite_imdb_rating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_gravity="bottom"
+                android:fontFamily="@font/opensans_condensed_imdb_rating"
+                android:gravity="bottom|start"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.1"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="0.454" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

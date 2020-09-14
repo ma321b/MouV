@@ -11,18 +11,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Favourites"></activity>
 
         <meta-data
             android:name="android.app.default_searchable"
-            android:value=".SearchableActivity" />
-        <!-- this is the searchable activity; it performs searches -->
-        <activity android:name="com.movierr.mouv.SearchableActivity">
+            android:value=".SearchableActivity" /> <!-- this is the searchable activity; it performs searches -->
+        <activity android:name=".SearchableActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -31,7 +32,7 @@
  this activity contains and enables the search dialog to initiate searches
          in the SearchableActivity
         -->
-        <activity android:name="com.movierr.mouv.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

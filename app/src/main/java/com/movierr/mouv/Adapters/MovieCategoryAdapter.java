@@ -248,7 +248,8 @@ public class MovieCategoryAdapter
         if (user != null) {
             String userID = user.getUid();
 
-            FavouriteMovie favMovie = new FavouriteMovie(tmdbIDs[position], movieImageUrls[position]);
+            FavouriteMovie favMovie = new FavouriteMovie(tmdbIDs[position], movieNames[position],
+                    movieImageUrls[position], imdbRatings[position]);
 
             // add the object containing info about the favourite movie to a sub-collection
             // called "favourites" in the document path "users/userID" where userID is the
