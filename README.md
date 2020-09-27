@@ -3,9 +3,9 @@ My personal movie recommendation android app.
 
 ## What it does:
 
-The user can search for movies by logging in and then pressing the "Movie Search" button on the landing page. The app then matches the query string with a database of movies and shows the matching movies in the form of a [Card-based layout](https://developer.android.com/guide/topics/ui/layout/cardview), essentially showing the movie title, its IMDB rating and its icon. The user can also add a movie to their "favourites" by clicking a button displayed in the layout. The user can also see their favourite movies by pressing the "Show Favourites" button in the overflow menu of the toolbar. Favourite movies are fetched from the user's records on the Firebase Firestore Cloud database and then shown to the user in the form of a [Card-based layout](https://developer.android.com/guide/topics/ui/layout/cardview).
-NOTE: The app currently supports Google and Email sign-up/log-in methods.
+The user can search for movies by logging in and then pressing the "Movie Search" button on the landing page. The app then matches the query string with a database of movies and shows the matching movies in the form of a [Card-based layout](https://developer.android.com/guide/topics/ui/layout/cardview), essentially showing the movie title, its IMDB rating and its icon. The user can also add a movie to their "favourites" by clicking a button displayed in the layout. The user can also see their favourite movies by pressing the "Show Favourites" button in the overflow menu of the toolbar. Favourite movies are fetched from the user's records on the Firebase Firestore Cloud database and then shown to the user in the form of a [Card-based layout](https://developer.android.com/guide/topics/ui/layout/cardview). The user can view their recommended movies by clicking "View Recommendations" in the overflow menu toolbar as well.
 
+NOTE: The app currently supports Google and Email sign-up/log-in methods. 
 ## How it works:
 
 The app uses an external REST API to search for movies. User-specific information is stored in Firebase Firestore database and authentication is managed by Firebase Authentication for Android.
