@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view_favourites"
+    android:id="@+id/card_view_recommendations"
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:layout_margin="4dp"
@@ -18,7 +18,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/favourite_movie_image"
+            android:id="@+id/recommended_movie_image"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -36,7 +36,7 @@
                  (gravity set to bottom). Otherwise not possible -->
 
             <TextView
-                android:id="@+id/favourite_movie_name"
+                android:id="@+id/recommended_movie_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -45,7 +45,7 @@
                 android:gravity="start|center"
                 android:textColor="@color/movie_name"
                 android:textSize="20sp"
-                card_view:layout_constraintBottom_toTopOf="@+id/favourite_imdb_rating"
+                card_view:layout_constraintBottom_toTopOf="@+id/recommended_rating"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintHorizontal_bias="0.098"
                 card_view:layout_constraintStart_toStartOf="parent"
@@ -53,7 +53,7 @@
                 card_view:layout_constraintVertical_bias="0.492" />
 
             <TextView
-                android:id="@+id/favourite_imdb_rating"
+                android:id="@+id/recommended_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

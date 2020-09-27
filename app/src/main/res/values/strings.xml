@@ -5,4 +5,5 @@
     <string name="search_widget">Search Widget</string>
     <string name="add_favourite">Add to favourites</string>
     <string name="show_favourites">Show Favourites</string>
+    <string name="view_recommendations">View Recommendations</string>
 </resources>

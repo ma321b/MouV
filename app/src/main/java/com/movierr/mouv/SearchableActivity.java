@@ -76,8 +76,7 @@ public class SearchableActivity extends AppCompatActivity {
     }
 
     /**
-     * Invoked when the menu item "show favourites"
-     * is clicked (using for showing favourites)
+     * Invoked when a menu item is clicked
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -98,6 +97,22 @@ public class SearchableActivity extends AppCompatActivity {
                         "Please log in to view favourites!", Toast.LENGTH_LONG).show();
             }
 
+        } else if (item.getItemId() == R.id.show_recommended_movies) {
+            // if the "View Recommendations" button from overflow menu is clicked,
+            // show user's recommended movies by launching Recommendations activity
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                // if user is logged in
+                String userID = user.getUid();
+                Intent intent = new Intent(this, Recommendations.class);
+                // putting userID as extra in Intent to facilitate fetching data from Firebase
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+            } else {
+                // if user is not logged in
+                Toast.makeText(this,
+                        "Please log in to view recommendations!", Toast.LENGTH_LONG).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

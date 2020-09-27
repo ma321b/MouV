@@ -18,20 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.movierr.mouv.Favourites;
 import com.movierr.mouv.R;
 
+import java.util.ArrayList;
+
 /**
- * Adapter to provide data for displaying Favourite movies
+ * Adapter for Recommended Movies
  */
-public class FavouritesAdapter
-        extends RecyclerView.Adapter<FavouritesAdapter.ViewHolder> {
+public class RecommendationsAdapter extends
+        RecyclerView.Adapter<RecommendationsAdapter.ViewHolder> {
+    private ArrayList<String> imageUrls;
 
-    private String[] imageUrls;
+    private ArrayList<String> movieTitles;
 
-    private String[] movieTitles;
-
-    private String[] imdbRatings;
+    private ArrayList<String> ratings;
 
     private Context context;
 
@@ -48,11 +48,11 @@ public class FavouritesAdapter
         }
     }
 
-    public FavouritesAdapter(String[] imageUrls, String[] movieTitles,
-                             String[] imdbRatings, Context context) {
+    public RecommendationsAdapter(ArrayList<String> imageUrls, ArrayList<String> movieTitles,
+                                  ArrayList<String> ratings, Context context) {
         this.imageUrls = imageUrls;
         this.movieTitles = movieTitles;
-        this.imdbRatings = imdbRatings;
+        this.ratings = ratings;
         this.context = context;
     }
 
@@ -63,38 +63,37 @@ public class FavouritesAdapter
      */
     @Override
     public int getItemCount() {
-        return movieTitles.length;
+        return movieTitles.size();
     }
 
     @NonNull
     @Override
-    public FavouritesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecommendationsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // basically the TLDR of this method and the ViewHolder class is to tell android
         // that use THIS cardview below for displaying recyclerview data items
         CardView cardView = (CardView) LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.card_favourite_movies, parent, false);
-        return new FavouritesAdapter.ViewHolder(cardView);
+                .inflate(R.layout.card_recommended_movies, parent, false);
+        return new RecommendationsAdapter.ViewHolder(cardView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(RecommendationsAdapter.ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.favourite_movie_image);
+        ImageView imageView = (ImageView) cardView.findViewById(R.id.recommended_movie_image);
 
         // Setting the movie's poster using Glide lib
         Glide.with(this.context)
-                .load(imageUrls[position])
+                .load(imageUrls.get(position))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .apply(new RequestOptions().override(cardView.getWidth(), 250))  // resizing it to the same size as its parent (250dp being the height of cardview)
                 .into(imageView);
 
-        TextView movieName = (TextView) cardView.findViewById(R.id.favourite_movie_name);
-        movieName.setText(movieTitles[position]);
+        TextView movieName = (TextView) cardView.findViewById(R.id.recommended_movie_name);
+        movieName.setText(movieTitles.get(position));
 
-        TextView imdbRating = (TextView) cardView.findViewById(R.id.favourite_imdb_rating);
+        TextView rating = (TextView) cardView.findViewById(R.id.recommended_rating);
         // Setting the text of imdb rating of the movie
-        setImdbRatingTextColor(imdbRatings[position], imdbRating);
+        setImdbRatingTextColor(ratings.get(position), rating);
     }
 
     /**
@@ -103,7 +102,7 @@ public class FavouritesAdapter
     private void setImdbRatingTextColor(String rating, TextView view) {
         // tutorial here: https://codinginflow.com/tutorials/android/spannablestring-text-color
 
-        SpannableString imdbRatingString = new SpannableString("IMDB rating: ");
+        SpannableString imdbRatingString = new SpannableString("Rating: ");
         SpannableString ratingValue = new SpannableString(rating);
 
         // IMDB's theme yellow color is #f3ce13 as below

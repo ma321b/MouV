@@ -7,4 +7,9 @@
         android:id="@+id/show_favourite_movies"
         app:showAsAction="never" />
 
+    <item
+        android:title="@string/view_recommendations"
+        android:id="@+id/show_recommended_movies"
+        app:showAsAction="never" />
+
 </menu>

@@ -119,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Invoked when the menu item "show favourites"
-     * is clicked (using for showing favourites)
+     * Invoked when a menu item is clicked
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -141,28 +140,44 @@ public class MainActivity extends AppCompatActivity {
                         "Please log in to view favourites!", Toast.LENGTH_LONG).show();
             }
 
+        } else if (item.getItemId() == R.id.show_recommended_movies) {
+            // if the "View Recommendations" button from overflow menu is clicked,
+            // show user's recommended movies by launching Recommendations activity
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                // if user is logged in
+                String userID = user.getUid();
+                Intent intent = new Intent(this, Recommendations.class);
+                // putting userID as extra in Intent to facilitate fetching data from Firebase
+                intent.putExtra("userID", userID);
+                startActivity(intent);
+            } else {
+                // if user is not logged in
+                Toast.makeText(this,
+                        "Please log in to view recommendations!", Toast.LENGTH_LONG).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * When a user is signed in, initialise the UI,
-     * showing a welcome message containing their name.
-     * @param userName The signed in user
-     */
-    private void onSignedInInitialise(String userName) {
-        String[] fullName = userName.split(" ");
-        String firstName = fullName[0];
-        TextView welcomeMessage = (TextView) findViewById(R.id.welcome_message);
-        welcomeMessage.setText(String.format("Welcome back, %s!", firstName));
-    }
+        /**
+         * When a user is signed in, initialise the UI,
+         * showing a welcome message containing their name.
+         * @param userName The signed in user
+         */
+        private void onSignedInInitialise (String userName){
+            String[] fullName = userName.split(" ");
+            String firstName = fullName[0];
+            TextView welcomeMessage = (TextView) findViewById(R.id.welcome_message);
+            welcomeMessage.setText(String.format("Welcome back, %s!", firstName));
+        }
 
-    /**
-     * Invoked when the button saying movie search is clicked
-     */
-    public void startSearch(View view) {
-        SearchView searchView = (SearchView) findViewById(R.id.search_widget);
-        // when the user presses the button it launches the search widget
-        searchView.setIconified(false);
+        /**
+         * Invoked when the button saying movie search is clicked
+         */
+        public void startSearch (View view){
+            SearchView searchView = (SearchView) findViewById(R.id.search_widget);
+            // when the user presses the button it launches the search widget
+            searchView.setIconified(false);
+        }
     }
-}
